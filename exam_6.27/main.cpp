@@ -1,5 +1,6 @@
 #include <iostream>
 #include<fstream>
+#include <algorithm>
 #include<string>
 using namespace std;
 struct student{
@@ -7,11 +8,13 @@ struct student{
     string name;
     string sex;
     int age;
+    double score[7];
+    double ave;
 };
 struct people{
     string referee;
     string people;
-    int score[5];
+    double score[10];
 };
 int main() {
     student t[10];
@@ -30,40 +33,41 @@ int main() {
     }
     if(enf.is_open())
     {
-        for(j=1;j<6;j++)
+        for(j=0;j<7;j++)
         {
             enf>>k[j].people;
         }
-        for(j=1;j<8;++j)
+        for(j=0;j<5;++j)
         {
-            for(i=1;i<6;++i)
+            for(i=0;i<7;++i)
             {
-              enf>>k[j].score[i];
+                enf>>k[j].score[i];
             }
-
         }
-        
         enf.close();
+    }
+    for(i=0;i<5;i++)
+    {
+        for(j=0;j<7;j++)
+        {
+            t[i].score[j]=k[i].score[j];
+        }
+    }
+    for(i=0;i<5;i++)
+    sort(t[i].score,t[i].score+7);
+    for(j=0;j<5;++j)
+    {
+        for(i=1;i<6;++i)
+        {
+            t[j].ave+=t[j].score[i];
+        }
+        t[j].ave/=5;
     }
     if(inf.is_open())
     {
         for(int i=0;i<5;i++)
         {
-            inf<<t[i].number<<" "<<t[i].name<<" "<<t[i].sex<<" "<<t[i].age<<endl;
-            
-        }
-        for(int i=1;i<6;i++)
-        {
-            inf<<k[i].people;
-        }
-        inf<<endl;
-        for(j=1;j<8;++j)
-        {
-            for(i=1;i<6;++i)
-            {
-                inf<<k[j].score[i];
-            }
-            
+            inf<<t[i].number<<" "<<t[i].name<<" "<<t[i].sex<<" "<<t[i].age<<" "<<t[i].ave<<" "<<endl;
         }
         inf.close();
     }
